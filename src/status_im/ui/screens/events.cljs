@@ -214,16 +214,16 @@
   :initialize-db
   (fn [{{:keys          [status-module-initialized? status-node-started?
                          network-status network _]
-         :networks/keys [networks]
-         :or {network (get app-db :network)}} :db} _]
-    {::init-store nil
-     :db          (assoc app-db
-                         :accounts/current-account-id nil
-                         :contacts/contacts {}
-                         :network-status network-status
-                         :status-module-initialized? (or platform/ios? js/goog.DEBUG status-module-initialized?)
-                         :status-node-started? status-node-started?
-                         :network network)}))
+         :networks/keys [networks]}}]
+    :or {network (get app-db :network)} :db _
+      {::init-store nil
+       :db          (assoc app-db
+                      :accounts/current-account-id nil
+                      :contacts/contacts {}
+                      :network-status network-status
+                      :status-module-initialized? (or platform/ios? js/goog.DEBUG status-module-initialized?)
+                      :status-node-started? status-node-started?
+                      :network network)}))
 
 (register-handler-db
   :initialize-account-db
