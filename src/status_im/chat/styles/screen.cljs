@@ -118,9 +118,6 @@
    :left     0
    :right    0})
 
-(def typing-all
-  {:marginBottom 20})
-
 (def typing-view
   {:width        260
    :marginTop    10

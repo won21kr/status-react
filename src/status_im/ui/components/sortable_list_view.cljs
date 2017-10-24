@@ -1,8 +1,8 @@
 (ns status-im.ui.components.sortable-list-view
   (:require [reagent.core :as r]
             [status-im.ui.components.react :refer [view
-                                                touchable-highlight
-                                                list-item]]
+                                                   touchable-highlight
+                                                   list-item]]
             [status-im.react-native.js-dependencies :as rn-dependencies]))
 
 (def sortable-listview-class

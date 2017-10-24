@@ -4,6 +4,7 @@
             [status-im.ui.components.icons.vector-icons :as vi]
             [status-im.ui.screens.discover.components.views :as components]
             [status-im.i18n :as i18n]
+            [status-im.ui.screens.discover.components.views :as components]
             [status-im.ui.screens.discover.styles :as styles]
             [status-im.ui.screens.contacts.styles :as contacts-styles]
             [status-im.ui.components.toolbar.view :as toolbar]))
