@@ -4,7 +4,7 @@
             [status-im.components.renderers.renderers :as renderers]
             [status-im.components.contact.contact :refer [contact-view]]
             [status-im.ui.screens.contacts.views :refer [contact-options]]
-            [status-im.components.react :refer [view list-view list-item]]
+            [status-im.components.react :refer [view list-view list-item] :as react]
             [status-im.components.status-bar :refer [status-bar]]
             [status-im.components.toolbar-new.view :refer [toolbar-with-search toolbar]]
             [status-im.components.toolbar-new.actions :as act]
@@ -57,12 +57,13 @@
 (defview contact-list []
   (letsubs [edit? [:get-in [:contacts/list-ui-props :edit?]]
             group [:get-contact-group]]
-    [drawer-view
-     [view {:flex 1}
-      [view
-       [status-bar]
-       (if edit?
-         [contact-list-toolbar-edit group]
-         [contact-list-toolbar group])]
-      [contacts-list-view group edit?]]]))
+    [react/with-activity-indicator {}
+     [drawer-view
+      [view {:flex 1}
+       [view
+        [status-bar]
+        (if edit?
+          [contact-list-toolbar-edit group]
+          [contact-list-toolbar group])]
+       [contacts-list-view group edit?]]]]))
 

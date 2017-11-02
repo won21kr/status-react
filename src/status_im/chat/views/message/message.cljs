@@ -13,7 +13,8 @@
                                                 touchable-highlight
                                                 autolink
                                                 get-dimensions
-                                                dismiss-keyboard!]]
+                                                dismiss-keyboard!]
+             :as react]
             [status-im.components.animation :as anim]
             [status-im.components.list-selection :refer [share share-or-open-map]]
             [status-im.chat.constants :as chat-consts]
@@ -366,7 +367,7 @@
                   children)])}))
     (into [view] children)))
 
-(defn chat-message [{:keys [outgoing message-id chat-id user-statuses from] :as message}]
+(defn chat-message [{:keys [from-last-five outgoing message-id chat-id user-statuses from] :as message}]
   (let [my-identity (subscribe [:get :current-public-key])
         status      (subscribe [:get-in [:message-data :user-statuses message-id my-identity]])
         preview     (subscribe [:get-message-preview message-id])]
@@ -389,6 +390,7 @@
                                    :message-id message-id}])))
        :reagent-render
        (fn [{:keys [outgoing group-chat content-type content] :as message}]
+         [react/with-activity-indicator {:enabled? from-last-five}
          [message-container message
           [touchable-highlight {:on-press #(when platform/ios? (dismiss-keyboard!))
                                 :on-long-press #(cond (= content-type text-content-type)
@@ -400,4 +402,4 @@
            [view
             (let [incoming-group (and group-chat (not outgoing))]
               [message-content message-body (merge message
-                                                   {:incoming-group incoming-group})])]]])})))
+                                                   {:incoming-group incoming-group})])]]]])})))

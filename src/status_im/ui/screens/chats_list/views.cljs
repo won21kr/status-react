@@ -81,9 +81,9 @@
             tabs-hidden? [:tabs-hidden?]]
     [react/view st/chats-container
      (cond
-       edit?   [toolbar-edit]
+       edit? [toolbar-edit]
        search? [toolbar-search]
-       :else   [toolbar-view])
+       :else [toolbar-view])
      [react/list-view {:dataSource      (to-datasource chats)
                        :renderRow       (fn [[id :as row] _ _]
                                           (react/list-item ^{:key id} [chat-list-item row edit?]))

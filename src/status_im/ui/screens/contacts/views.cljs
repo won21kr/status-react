@@ -2,7 +2,7 @@
   (:require-macros [status-im.utils.views :refer [defview letsubs]])
   (:require [re-frame.core :refer [dispatch]]
             [status-im.components.common.common :as common]
-            [status-im.components.react :refer [view text touchable-highlight scroll-view]]
+            [status-im.components.react :refer [view text touchable-highlight scroll-view] :as react]
             [status-im.components.icons.vector-icons :as vi]
             [status-im.components.native-action-button :refer [native-action-button
                                                                native-action-button-item]]

@@ -162,13 +162,13 @@
     [react/view styles/discover-container
      [toolbar-view (and current-view?
                         (= show-search :discover)) search-text]
-       [react/scroll-view styles/list-container
-        [recent-statuses-preview {:contacts        contacts
-                                  :current-account current-account
-                                  :discoveries     discoveries}]
-        [popular-hashtags-preview {:popular-tags        popular-tags
-                                   :popular-discoveries popular-discoveries
-                                   :contacts            contacts
-                                   :current-account     current-account}]
-        [all-dapps/preview all-dapps]
-        [public-chats-teaser]]]))
+     [react/scroll-view styles/list-container
+      [recent-statuses-preview {:contacts        contacts
+                                :current-account current-account
+                                :discoveries     discoveries}]
+      [popular-hashtags-preview {:popular-tags        popular-tags
+                                 :popular-discoveries popular-discoveries
+                                 :contacts            contacts
+                                 :current-account     current-account}]
+      [all-dapps/preview all-dapps]
+      [public-chats-teaser]]]))

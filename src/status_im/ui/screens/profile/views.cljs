@@ -225,18 +225,19 @@
                     whisper-identity]
              :as   contact} [:contact]
             chat-id  [:get :current-chat-id]]
-    [react/view styles/profile
-     [status-bar]
-     [profile-toolbar contact]
-     [network-info]
-     [react/scroll-view
-      [react/view styles/profile-form
-       [profile-badge contact]
-       (when (and (not (nil? status)) (not (string/blank? status)))
-         [profile-status status])]
-      [common/form-spacer]
-      [profile-actions contact chat-id]
-      [common/form-spacer]
-      [react/view styles/profile-info-container
-       [profile-info contact]
-       [common/bottom-shadow]]]]))
+    [react/with-activity-indicator {}
+     [react/view styles/profile
+      [status-bar]
+      [profile-toolbar contact]
+      [network-info]
+      [react/scroll-view
+       [react/view styles/profile-form
+        [profile-badge contact]
+        (when (and (not (nil? status)) (not (string/blank? status)))
+          [profile-status status])]
+       [common/form-spacer]
+       [profile-actions contact chat-id]
+       [common/form-spacer]
+       [react/view styles/profile-info-container
+        [profile-info contact]
+        [common/bottom-shadow]]]]]))

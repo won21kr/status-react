@@ -31,7 +31,8 @@
                               {}
                               indexed-tabs)
         index->tab    (clojure.set/map-invert tab->index)
-        get-tab-index #(get tab->index % 0)]
+        get-tab-index #(get tab->index % 0)
+        current-view-id (re-frame/subscribe [:get :view-id])]
     (fn [tabs-list current-tab show-tabs?]
       (let [current-tab-index (get-tab-index current-tab)
             on-press          (fn [index]
@@ -48,7 +49,11 @@
                         :ref              #(reset! swiper %)
                         :on-index-changed #(re-frame/dispatch [navigation-event (index->tab %)])}
           (for [[index {:keys [screen view-id]}] indexed-tabs]
-            ^{:key index} [screen (is-current-tab? view-id)])]
+            ^{:key index}
+            [react/with-activity-indicator
+             {:enabled? (= @current-view-id view-id)
+              :timeout  100}
+             [screen (is-current-tab? view-id)]])]
          (when (and bottom-tabs?
                     show-tabs?)
            [tabs tabs-container-style indexed-tabs tab-style on-press is-current-tab?])]))))
