@@ -41,10 +41,7 @@
     :nav-action         (actions/hamburger drawer/open-drawer!)
     :on-search-submit   (fn [text]
                           (when-not (string/blank? text)
-                            (let [hashtags (get-hashtags text)]
-                              ;; TODO (goranjovic) - refactor double dispatch to a single call
-                              (re-frame/dispatch [:set :discover-search-tags hashtags])
-                              (re-frame/dispatch [:navigate-to :discover-search-results]))))}])
+                            (re-frame/dispatch [:discover/search-tags-results-view text])))}])
 
 
 (defn top-status-for-popular-hashtag [{:keys [tag item current-account contacts]}]
@@ -52,9 +49,7 @@
     [react/view styles/popular-list-container
      [react/view styles/row
       [react/view {}
-       ;; TODO (goranjovic) - refactor double dispatch to a single call
-       [react/touchable-highlight {:on-press #(do (re-frame/dispatch [:set :discover-search-tags [tag]])
-                                                  (re-frame/dispatch [:navigate-to :discover-search-results]))}
+       [react/touchable-highlight {:on-press #(re-frame/dispatch [:discover/search-tag-results-view tag])}
         [react/view {}
          [react/text {:style styles/tag-name
                       :font  :medium}
@@ -71,9 +66,7 @@
 (defn popular-hashtags-preview [{:keys [popular-discoveries popular-tags contacts current-account]}]
   (let [has-content? (seq popular-tags)]
     [react/view styles/popular-container
-     ;; TODO (goranjovic) - refactor double dispatch to a single call
-     [components/title :t/popular-tags :t/all #(do (re-frame/dispatch [:set :discover-search-tags (map :name popular-tags)])
-                                                   (re-frame/dispatch [:navigate-to :discover-all-hashtags])) has-content?]
+     [components/title :t/popular-tags :t/all #(re-frame/dispatch [:discover/popular-tags-view popular-tags]) has-content?]
      (if has-content?
        [carousel/carousel {:pageStyle styles/carousel-page-style
                            :gap       8
@@ -155,20 +148,20 @@
             search-text         [:get-in [:toolbar-search :text]]
             contacts            [:get-contacts]
             current-account     [:get-current-account]
-            discoveries         [:get-recent-discoveries]
-            all-dapps           [:get-all-dapps]
-            popular-tags        [:get-popular-tags 10]
-            popular-discoveries [:get-top-discovery-per-tag 10]]
+            discoveries         [:discover/recent-discoveries]
+            all-dapps           [:discover/all-dapps]
+            popular-tags        [:discover/popular-tags 10]
+            popular-discoveries [:discover/top-discovery-per-tag 10]]
     [react/view styles/discover-container
      [toolbar-view (and current-view?
                         (= show-search :discover)) search-text]
      [react/scroll-view styles/list-container
       [recent-statuses-preview {:contacts        contacts
-                                  :current-account current-account
-                                  :discoveries     discoveries}]
+                                :current-account current-account
+                                :discoveries     discoveries}]
       [popular-hashtags-preview {:popular-tags        popular-tags
-                                   :popular-discoveries popular-discoveries
-                                   :contacts            contacts
+                                 :popular-discoveries popular-discoveries
+                                 :contacts            contacts
                                  :current-account     current-account}]
       [all-dapps/preview all-dapps]
       [public-chats-teaser]]]))

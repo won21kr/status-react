@@ -62,7 +62,7 @@
 
 (defn get-hashtags [status]
   (if status
-    (let [hashtags (map #(string/lower-case (subs % 1))
+    (let [hashtags (map #(keyword (string/lower-case (subs % 1)))
                         (re-seq #"#[^ !?,;:.]+" status))]
       (set (or hashtags [])))
     #{}))
