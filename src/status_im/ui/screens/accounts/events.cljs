@@ -157,6 +157,15 @@
       {:db            (assoc-in db [:accounts/accounts id] new-account)
        ::save-account new-account})))
 
+(handlers/register-handler-fx
+  :account-update-visible-tokens
+  (fn [{{:accounts/keys [current-account-id accounts] :as db} :db} [_ visible-tokens]]
+    (let [current-account (get accounts current-account-id)
+          new-account (assoc current-account :visible-tokens "TEST" #_visible-tokens)]
+      {:db            (assoc-in db [:accounts/accounts current-account-id] new-account)
+       ::save-account new-account})))
+
+
 (defn account-update
   "Takes effects (containing :db) + new account fields, adds all effects necessary for account update."
   [{{:accounts/keys [accounts current-account-id] :as db} :db :as fx} new-account-fields]

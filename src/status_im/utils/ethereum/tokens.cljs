@@ -1,5 +1,6 @@
 (ns status-im.utils.ethereum.tokens
-  (:require [status-im.ui.components.styles :as styles])
+  (:require [status-im.ui.components.styles :as styles]
+            [status-im.utils.ethereum.core :as ethereum])
   (:require-macros [status-im.utils.ethereum.macros :refer [resolve-icons]]))
 
 (defn- asset-border [color]
@@ -34,7 +35,7 @@
        :name     "PowerLedger"
        :address  "0x595832f8fc6bf59c85c527fec3740a1b7a361269"
        :decimals 18}
-      {:symbol   :TENX
+      {:symbol   :PAY
        :name     "TenXPay"
        :address  "0xB97048628DB6B661D4C2aA833e95Dbe1A905B280"
        :decimals 18}
@@ -365,11 +366,7 @@
       {:symbol   :ROL
        :name     "Dice"
        :address  "0x2e071D2966Aa7D8dECB1005885bA1977D6038A65"
-       :decimals 16}
-      {:symbol   :TIME
-       :name     "TIME"
-       :address  "0x6531f133e6deebe7f2dce5a0441aa7ef330b4e53"
-       :decimals 18}])
+       :decimals 16}])
    :testnet
    (resolve-icons
      [{:name     "Status Test Token"
@@ -377,5 +374,9 @@
        :decimals 18
        :address  "0xc55cf4b03948d7ebc8b9e8bad92643703811d162"}])})
 
+(defn tokens-for [chain-id]
+  (get all chain-id))
+
+
 (defn token-for [chain-id symbol]
-  (some #(if (= symbol (:symbol %)) %) (get all chain-id)))
+  (some #(if (= symbol (:symbol %)) %) (tokens-for chain-id)))

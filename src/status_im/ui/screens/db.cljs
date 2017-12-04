@@ -33,7 +33,7 @@
              :discover-current-dapp      {}
              :tags                       []
              :sync-state                 :done
-             :wallet                     {}
+             :wallet                     {:settings {:visible-tokens {:testnet #{:STT} :mainnet #{:SNT}}}}
              :wallet.transactions        constants/default-wallet-transactions
              :wallet-selected-asset      {}
              :prices                     {}
